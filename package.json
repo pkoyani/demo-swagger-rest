@@ -1,0 +1,30 @@
+{
+  "name": "hello-world",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "class-transformer": "^0.1.8",
+    "express": "^4.12.3",
+    "helmet": "^3.9.0",
+    "swagger-express-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.11.0",
+    "nodemon": "^1.12.1",
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "nodemon -w app.js --exec \"babel-node app.js --presets es2015,stage-0\"",
+    "test": "swagger project test"
+  }
+}
