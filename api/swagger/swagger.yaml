@@ -18,9 +18,84 @@ consumes:
 produces:
   - application/json
 paths:
-  /people/{personId}:
+  /person:
+    post:
+      tags:
+      - "person"
+      summary: "Add a new person to the store"
+      description: ""
+      operationId: "addPerson"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Person object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/PersonRequest"
+      responses:
+        405:
+          description: "Invalid input"
+      security:
+      - Bearer: []
+    put:
+      tags:
+      - "person"
+      summary: "Update an existing person"
+      description: ""
+      operationId: "updatePerson"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Person object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/PersonRequest"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Person not found"
+        405:
+          description: "Validation exception"
+      security:
+      - Bearer: []
+  /person/{personId}:
     # binds app logic to a route
     x-swagger-router-controller: Person
+    delete:
+      tags:
+      - "person"
+      summary: "Deletes a person"
+      description: ""
+      operationId: "deletePerson"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "personId"
+        in: "path"
+        description: "Person id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+      security:
+      - Bearer: []
     get:
       description: Returns a single person
       # used as the method name of the controller
@@ -38,6 +113,16 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/PersonResponse"
+        "400":
+          description: Invalid personId supplied
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ErrorResponse"
+        "404":
+          description: Person not found  
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ErrorResponse"
         # responses may fall through to errors
         default:
           description: Error
@@ -45,9 +130,23 @@ paths:
             $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 # complex objects have schema definitions
 definitions:
   PersonResponse:
+    required:
+      - firstName
+      - lastName
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  PersonRequest:
     required:
       - firstName
       - lastName

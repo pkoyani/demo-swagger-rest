@@ -1,34 +1,33 @@
-var should = require('should');
-var request = require('supertest');
-var server = require('../../../app');
+import 'babel-polyfill'
+import should from 'should';
+import request from 'supertest';
+import {server}  from '../../../app';
 
 describe('controllers', function() {
 
-  describe('hello_world', function() {
+  describe('person', function() {
 
-    describe('GET /hello', function() {
+    describe('GET /person', function() {
 
-      it('should return a default string', function(done) {
+      it('should return a Person object', function(done) {
 
         request(server)
-          .get('/hello')
+          .get('/person/1')
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
           .end(function(err, res) {
             should.not.exist(err);
-
-            res.body.should.eql('Hello, stranger!');
-
+            res.body.firstName.should.eql('Murali');
             done();
           });
       });
 
-      it('should accept a name parameter', function(done) {
+     /* it('should accept a personId parameter', function(done) {
 
         request(server)
-          .get('/hello')
-          .query({ name: 'Scott'})
+          .get('/person')
+          .query({ personId: 1})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
@@ -39,7 +38,7 @@ describe('controllers', function() {
 
             done();
           });
-      });
+      });*/
 
     });
 
