@@ -19,6 +19,7 @@ produces:
   - application/json
 paths:
   /person:
+    x-swagger-router-controller: Person
     post:
       tags:
       - "person"
@@ -151,6 +152,8 @@ definitions:
       - firstName
       - lastName
     properties:
+      id:
+        type: integer
       firstName:
         type: string
       lastName:
