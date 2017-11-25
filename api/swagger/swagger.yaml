@@ -54,7 +54,6 @@ paths:
       - "person"
       summary: "Update an existing person"
       description: ""
-      operationId: "updatePerson"
       consumes:
       - "application/json"
       produces:
@@ -90,10 +89,6 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "api_key"
-        in: "header"
-        required: true
-        type: "string"
       - name: "personId"
         in: "path"
         description: "Person id to delete"
@@ -101,6 +96,8 @@ paths:
         type: "integer"
         format: "int64"
       responses:
+        204:
+          description: Success
         400:
           description: "Invalid input"
         404:
