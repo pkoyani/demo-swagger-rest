@@ -27,5 +27,5 @@
  }
         
 
- export {getPersonById,updatePerson,insertPerson,deletePerson};
+ export {getPersonById,updatePerson,insertPerson,deletePerson,};
 

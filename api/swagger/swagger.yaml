@@ -25,7 +25,6 @@ paths:
       - "person"
       summary: "Add a new person to the store"
       description: ""
-      operationId: "addPerson"
       consumes:
       - "application/json"
       produces:
@@ -38,8 +37,16 @@ paths:
         schema:
           $ref: "#/definitions/PersonRequest"
       responses:
-        405:
+        201:
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/PersonResponse"      
+        400:
           description: "Invalid input"
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ErrorResponse"   
       security:
       - Bearer: []
     put:
@@ -60,12 +67,15 @@ paths:
         schema:
           $ref: "#/definitions/PersonRequest"
       responses:
+        200:
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/PersonResponse"      
         400:
-          description: "Invalid ID supplied"
+          description: "Invalid input"
         404:
           description: "Person not found"
-        405:
-          description: "Validation exception"
       security:
       - Bearer: []
   /person/{personId}:
@@ -76,7 +86,7 @@ paths:
       - "person"
       summary: "Deletes a person"
       description: ""
-      operationId: "deletePerson"
+      operationId: "del"
       produces:
       - "application/json"
       parameters:
@@ -92,9 +102,9 @@ paths:
         format: "int64"
       responses:
         400:
-          description: "Invalid ID supplied"
+          description: "Invalid input"
         404:
-          description: "Pet not found"
+          description: "Person not found"
       security:
       - Bearer: []
     get:
@@ -115,7 +125,7 @@ paths:
             # a pointer to a definition
             $ref: "#/definitions/PersonResponse"
         "400":
-          description: Invalid personId supplied
+          description: Invalid input
           schema:
             # a pointer to a definition
             $ref: "#/definitions/ErrorResponse"

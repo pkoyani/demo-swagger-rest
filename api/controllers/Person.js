@@ -1,6 +1,7 @@
 import util from 'util';
-import {getPersonById,insertPerson} from '../services/Person';
+import {getPersonById,insertPerson,updatePerson,deletePerson} from '../services/Person';
 import {serialize} from 'class-transformer';
+import validate from '../validators/person';
 
 /*
 
@@ -11,9 +12,6 @@ import {serialize} from 'class-transformer';
   - Or the operationId associated with the operation in your Swagger document
 
  */
-/*module.exports = {
-  getPerson: getPerson
-};*/
 
 /*
   Functions in controllers used for operations should take two parameters:
@@ -23,7 +21,7 @@ import {serialize} from 'class-transformer';
  */
  const getPerson=(req, res)=>{
   // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-  var personId = req.swagger.params.personId.value;
+  let personId = req.swagger.params.personId.value;
   getPersonById(personId)
     .then(person => {
       if (person) {
@@ -37,12 +35,59 @@ import {serialize} from 'class-transformer';
   });
 }
 
-const addPerson=(req, res)=>{
-  // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-  insertPerson(req.body)
-    .then(person => {
-      if (person) {
-        res.status(200).json(person);
+const post=(req, res)=>{
+  validate(req.body).then(result=>{
+    if (result.isValid){
+      insertPerson(req.body)
+        .then(person => {
+          if (person) {
+            res.status(200).json(serialize(person));
+          }
+      })
+      .catch((err) => {
+        res.status(500).send({"message":err});
+      });
+    }
+    else{
+      res.status(400).send({"message":result.message});
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({"message":err});
+  });
+}
+
+const put=(req, res)=>{
+  validate(req.body).then(result=>{
+    if (result.isValid){
+      updatePerson(req.body)
+        .then(person => {
+          if (person) {
+            res.status(200).json(serialize(person));
+          } else {
+            res.status(404).send({"message":"Person not found"});
+          }
+      })
+      .catch((err) => {
+        res.status(500).send({"message":err});
+      });
+    }
+    else{
+      res.status(400).send({"message":result.message});
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({"message":err});
+  });
+}
+
+
+const del=(req, res)=>{
+  let personId = req.swagger.params.personId.value;
+  deletePerson(personId)
+    .then(result => {
+      if (result) {
+        res.status(204).send();
       } else {
         res.status(404).send({"message":"Person not found"});
       }
@@ -52,6 +97,6 @@ const addPerson=(req, res)=>{
   });
 }
 
-export {getPerson,addPerson};
+export {getPerson,post,put,del};
 
 
