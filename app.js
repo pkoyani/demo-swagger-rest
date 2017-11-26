@@ -18,9 +18,6 @@ let config = {
           in: "header"
       The key for the swaggerSecurityHandler function will be key for the security definition -
       in this case Bearer.
-      The type is "apiKey" so the scopesOrApiKey param in the security handler function will
-      hold our token extracted based on the "name" property and "in" prop 
-      from our security definition - req.headers['Authorization']      
     */
     Bearer: bearerTokenSecurityHandler  
     
