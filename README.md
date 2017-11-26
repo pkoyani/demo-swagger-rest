@@ -10,14 +10,14 @@ Demo of Swagger 2.0 compliant RESTful API with ExpressJS
 
         yarn start
 
-The API will be available at `http://localhost:10010`
-The Authorization header for this demo is `abracadabra`  
+The API will be available at `http://localhost:10010`.
+The Authorization header for this demo is `abracadabra`.
 
 3) Design the API
         
         swagger project edit
 
-The Authorization header for this demo is `abracadabra`    
+The Authorization header for this demo is `abracadabra`.  
 
 4) View the API documentation at `http://localhost:10010/api-docs`    
 
