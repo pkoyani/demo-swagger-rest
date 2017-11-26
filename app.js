@@ -1,8 +1,11 @@
 import SwaggerExpress from 'swagger-express-mw';
+import YAML from 'yamljs';
 import express from 'express';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
 import bearerTokenSecurityHandler from './api/helpers/swaggerSecurityHandlers';
 
+const swaggerDocument = YAML.load('./api/swagger/swagger.yaml');
 let app = express();
 let config = {
   appRoot: __dirname, // required config
@@ -29,6 +32,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
   // install middleware
   app.use(helmet());
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   swaggerExpress.register(app);
 
   let port = process.env.PORT || 10010;
