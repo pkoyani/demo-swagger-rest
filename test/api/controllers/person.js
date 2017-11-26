@@ -5,7 +5,21 @@ import server from '../../../app';
 
 describe('controllers', () => {
   describe('person', () => {
-    describe('GET /person', () => {
+    describe('POST', () => {
+      it('should return 403 - FORBIDDEN for invalid Authorization token in header', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra1' })
+          .expect(403)
+          .end((err, res) => {
+            should.not.exist(err);
+            should.exist(res.body.message);
+            done();
+          });
+      });
+    });
+
+    describe('GET', () => {
       it('should return a Person object for a valid personId', (done) => {
         request(server)
           .get('/person/1')
@@ -43,23 +57,6 @@ describe('controllers', () => {
             done();
           });
       });
-
-    /* it('should accept a personId parameter', function(done) {
-
-        request(server)
-          .get('/person')
-          .query({ personId: 1})
-          .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end(function(err, res) {
-            should.not.exist(err);
-
-            res.body.should.eql('Hello, Scott!');
-
-            done();
-          });
-      }); */
     });
   });
 });
