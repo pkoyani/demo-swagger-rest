@@ -4,6 +4,10 @@ import Person from '../models/Person';
 const getPersonById = id =>
   new Promise((resolve, reject) => {
     try {
+      // simulating 404
+      if (id === 1000) {
+        resolve(null);
+      }
       resolve(new Person({ id, firstName: 'Murali', lastName: 'Narasimhan' }));
     } catch (err) {
       reject(err);
