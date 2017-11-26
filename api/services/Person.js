@@ -1,31 +1,44 @@
+import Person from '../models/Person';
 
- import Person from '../models/Person';
+// for the POC just returning a hard-coded person
+const getPersonById = id =>
+  new Promise((resolve, reject) => {
+    try {
+      resolve(new Person({ id, firstName: 'Murali', lastName: 'Narasimhan' }));
+    } catch (err) {
+      reject(err);
+    }
+  });
 
- //for the POC just returning a hard-coded person
- const  getPersonById=(id)=>  {
-    return new Promise(function(resolve,reject){
-        resolve(new Person ({firstName:'Murali',lastName:'Narasimhan'}));
-    });
- }
 
- const  updatePerson=(person)=>  {
-    return new Promise(function(resolve,reject){
-        resolve(person);
-    });
- }
+const updatePerson = person =>
+  new Promise((resolve, reject) => {
+    try {
+      resolve(person);
+    } catch (err) {
+      reject(err);
+    }
+  });
 
- const  insertPerson=(person)=>  {
-    return new Promise(function(resolve,reject){
-        resolve(person);
-    });
- }
 
- const  deletePerson=(personId)=>  {
-    return new Promise(function(resolve,reject){
-        resolve(true);
-    });
- }
-        
+const insertPerson = person =>
+  new Promise((resolve, reject) => {
+    try {
+      resolve(person);
+    } catch (err) {
+      reject(err);
+    }
+  });
 
- export {getPersonById,updatePerson,insertPerson,deletePerson,};
+
+const deletePerson = personId =>
+  new Promise((resolve, reject) => {
+    try {
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+
+export { getPersonById, updatePerson, insertPerson, deletePerson };
 
