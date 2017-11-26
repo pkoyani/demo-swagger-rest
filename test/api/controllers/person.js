@@ -41,6 +41,50 @@ describe('controllers', () => {
             done();
           });
       });
+      it('should return 400 - BAD REQUEST when firstName contains numbers', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ firstName: 'john123', lastName: 'doe' })
+          .expect(400)
+          .then((res) => {
+            should.exist(res.body.message);
+            done();
+          });
+      });
+      it('should return 400 - BAD REQUEST when lastName contains numbers', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ firstName: 'john', lastName: 'doe123' })
+          .expect(400)
+          .then((res) => {
+            should.exist(res.body.message);
+            done();
+          });
+      });
+      it('should return 400 - BAD REQUEST when firstName exceeds 30 characters', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ firstName: 'thisfirstnamehasalotofcharactersandwillcausevalidationerror', lastName: 'doe123' })
+          .expect(400)
+          .then((res) => {
+            should.exist(res.body.message);
+            done();
+          });
+      });
+      it('should return 400 - BAD REQUEST when lastName exceeds 30 characters', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ firstName: 'john', lastName: 'thislastnamehasalotofcharactersandwillcausevalidationerror' })
+          .expect(400)
+          .then((res) => {
+            should.exist(res.body.message);
+            done();
+          });
+      });
       it('should create a single person', (done) => {
         request(server)
           .post('/person')
