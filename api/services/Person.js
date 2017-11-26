@@ -28,7 +28,8 @@ const updatePerson = person =>
 const insertPerson = person =>
   new Promise((resolve, reject) => {
     try {
-      resolve(person);
+      const { firstName, lastName } = person;
+      resolve({ id: 25, firstName, lastName });
     } catch (err) {
       reject(err);
     }

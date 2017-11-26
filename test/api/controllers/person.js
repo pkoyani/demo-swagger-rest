@@ -17,6 +17,43 @@ describe('controllers', () => {
             done();
           });
       });
+      it('should return 400 - BAD REQUEST when firstName is missing', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ lastName: 'doe' })
+          .expect(400)
+          .then((res) => {
+            res.body.code.should.eql('SCHEMA_VALIDATION_FAILED');
+            res.body.results.errors[0].message.should.eql('Missing required property: firstName');
+            done();
+          });
+      });
+      it('should return 400 - BAD REQUEST when lastName is missing', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ fistName: 'john' })
+          .expect(400)
+          .then((res) => {
+            res.body.code.should.eql('SCHEMA_VALIDATION_FAILED');
+            res.body.results.errors[0].message.should.eql('Missing required property: lastName');
+            done();
+          });
+      });
+      it('should create a single person', (done) => {
+        request(server)
+          .post('/person')
+          .set({ Accept: 'application/json', Authorization: 'abracadabra' })
+          .send({ firstName: 'john', lastName: 'doe' })
+          .expect(200)
+          .end((err, res) => {
+            should.not.exist(err);
+            const person = JSON.parse(res.body);
+            person.id.should.eql(25);
+            done();
+          });
+      });
     });
 
     describe('GET', () => {
@@ -39,8 +76,7 @@ describe('controllers', () => {
           .get('/person/a')
           .set('Accept', 'application/json')
           .expect(400)
-          .end((err, res) => {
-            should.not.exist(err);
+          .then((res) => {
             res.body.code.should.eql('INVALID_TYPE');
             done();
           });
@@ -51,8 +87,7 @@ describe('controllers', () => {
           .get('/person/1000')
           .set('Accept', 'application/json')
           .expect(404)
-          .end((err, res) => {
-            should.not.exist(err);
+          .then((res) => {
             res.body.message.should.eql('Person not found');
             done();
           });
