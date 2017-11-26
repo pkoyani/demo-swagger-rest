@@ -1,7 +1,7 @@
 import SwaggerExpress from 'swagger-express-mw';
 import express from 'express';
 import helmet from 'helmet';
-import {bearerTokenSecurityHandler} from './api/helpers/swaggerSecurityHandlers';
+import bearerTokenSecurityHandler from './api/helpers/swaggerSecurityHandlers';
 
 let app = express();
 let config = {
