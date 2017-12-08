@@ -32,7 +32,8 @@ The Authorization header for this demo is `abracadabra`.
 ## Docker
 
 Build
-`docker build -t <name:tag> .`
-Run
-`docker run -p 8080:8080 -d <name:tag>`        
+`docker build -t <name:tag> .`  
+Run  
+`docker run -p 8080:8080 -d <name:tag>`  
+
 
