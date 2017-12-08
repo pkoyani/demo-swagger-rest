@@ -29,3 +29,10 @@ The Authorization header for this demo is `abracadabra`.
         
         yarn lint
 
+## Docker
+
+Build
+`docker build -t <name:tag> .`
+Run
+`docker run -p 8080:8080 -d <name:tag>`        
+
